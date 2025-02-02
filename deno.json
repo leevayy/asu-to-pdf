@@ -1,0 +1,16 @@
+{
+  "tasks": {
+    "dev": "deno run --env-file=.env --watch -A main.ts"
+  },
+  "imports": {
+    "@std/assert": "jsr:@std/assert@1",
+    "@types/pdfkit": "npm:@types/pdfkit@^0.13.9",
+    "@types/sharp": "npm:@types/sharp@^0.32.0",
+    "compress-pdf": "npm:compress-pdf@^0.5.2",
+    "pdf-lib": "npm:pdf-lib@^1.17.1",
+    "pdfkit": "npm:pdfkit@^0.16.0",
+    "sharp": "npm:sharp@^0.33.5",
+    "telegraf": "npm:telegraf@^4.16.3"
+  },
+  "nodeModulesDir": "auto"
+}
