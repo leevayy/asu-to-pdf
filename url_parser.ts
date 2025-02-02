@@ -35,7 +35,8 @@ export async function parseBookUrl(
     const bookActualName = titleElement?.textContent?.trim() || "";
 
     const url = isLinkToBookPage
-      ? usersUrl.replace("xmlui/handle/asu/", "xmlui/bitstream/handle/asu/")
+      ? usersUrl.replace("xmlui/handle/asu/", "xmlui/bitstream/handle/asu/") +
+        "read.7book"
       : usersUrl;
 
     // Handle direct book viewer URLs
@@ -75,4 +76,8 @@ export async function parseBookUrl(
     }
     throw new Error("Failed to parse book URL: Unknown error");
   }
+}
+
+if (import.meta.main) {
+  parseBookUrl("http://elibrary.asu.ru/xmlui/handle/asu/9770/");
 }

@@ -271,7 +271,7 @@ http://elibrary\\.asu\\.ru/xmlui/bitstream/handle/asu/9770/read\\.7book?sequence
             } catch (error: unknown) {
               console.error("Download error:", error);
               if (error instanceof Error) {
-                await ctx.reply("Не удалось отрпавить файл 🤔🤔🤔").catch(
+                await ctx.reply("Не удалось отправить файл 🤔🤔🤔").catch(
                   console.error,
                 );
               } else {
