@@ -12,6 +12,8 @@ MacOs
 
 #### Step 2. run with deno
 
-```deno install
+```
+deno install
 
-deno run dev```
+deno run dev
+```
