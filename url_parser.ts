@@ -36,7 +36,7 @@ export async function parseBookUrl(
 
     const url = isLinkToBookPage
       ? usersUrl.replace("xmlui/handle/asu/", "xmlui/bitstream/handle/asu/") +
-        "read.7book"
+        "/read.7book"
       : usersUrl;
 
     // Handle direct book viewer URLs
