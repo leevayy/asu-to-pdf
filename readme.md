@@ -1,13 +1,17 @@
 # asu-to-pdf bot
 
-## Install binaries Ubuntu
+#### Step 1. install gs
+
+Install binaries Ubuntu
 
 `sudo apt-get install ghostscript -y`
 
-## MacOS
+MacOs
 
 `brew install ghostscript`
 
-`deno install`
+#### Step 2. run with deno
 
-`deno run dev`
+```deno install
+
+deno run dev```
