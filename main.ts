@@ -132,8 +132,7 @@ async function downloadBookToBuffer(
 
   while (consecutiveEmptyResponses < MAX_EMPTY_RESPONSES) {
     try {
-      // const imageBuffer = await downloadImage(page, options);
-      const imageBuffer = await Deno.readFile(`./images/page_${page}.png`);
+      const imageBuffer = await downloadImage(page, options);
       if (!imageBuffer) {
         consecutiveEmptyResponses++;
       } else {
@@ -197,7 +196,22 @@ if (import.meta.main) {
   });
 
   bot.command("start", (ctx) => {
-    ctx.reply("Скинь ссылку вроде ");
+    ctx.reply(
+      `Привет\\! Этот бот помогает скачивать книги из библиотеки АГУ\\. 
+
+Отправь мне ссылку на книгу и я ее скачаю в формате PDF 😋😋😋
+Отправляй *одну ссылку за раз\\!* ⛔️⛔️⛔️
+
+__Примеры ссылок:__
+
+Пример 1:
+http://elibrary\\.asu\\.ru/xmlui/handle/asu/9770
+
+Пример 2:
+http://elibrary\\.asu\\.ru/xmlui/bitstream/handle/asu/9770/read\\.7book?sequence\\=1&isAllowed\\=y
+`,
+      { "parse_mode": "MarkdownV2" },
+    );
   });
 
   bot.on(message("text"), async (ctx) => {
@@ -205,7 +219,7 @@ if (import.meta.main) {
       const text = ctx.message.text;
       if (text.includes("elibrary.asu.ru")) {
         try {
-          const statusMessage = await ctx.reply("Starting book download...");
+          const statusMessage = await ctx.reply("Скачиваю книгу...");
 
           (async () => {
             try {
@@ -213,14 +227,20 @@ if (import.meta.main) {
               let lastUpdateTime = Date.now();
               let downloadedPages = 0;
 
+              const emoji = ["😮", "😲", "😳", "😱", "🤯"];
+
               const updateProgress = async () => {
                 const now = Date.now();
                 if (now - lastUpdateTime >= 5000) { // Update every 5 seconds
+                  const progress = Math.floor(downloadedPages / 25);
+
                   await ctx.telegram.editMessageText(
                     statusMessage.chat.id,
                     statusMessage.message_id,
                     undefined,
-                    `Downloading book... Downloaded ${downloadedPages} pages so far.`,
+                    `Скачиваю книгу... скачано страниц: ${
+                      downloadedPages - 1
+                    }. ${emoji[progress > 4 ? 4 : progress]}`,
                   ).catch(console.error); // Ignore update errors
                   lastUpdateTime = now;
                 }
@@ -245,15 +265,17 @@ if (import.meta.main) {
                 console.error(error);
                 console.error("Error sending document");
                 await ctx.reply(
-                  "Error sending the PDF. The file might be too large.",
+                  "Не удалось отправить ПДФ 😭😭😭 Возможно файл слишком большой...",
                 ).catch(console.error);
               });
             } catch (error: unknown) {
               console.error("Download error:", error);
               if (error instanceof Error) {
-                await ctx.reply("Error sending document").catch(console.error);
+                await ctx.reply("Не удалось отрпавить файл 🤔🤔🤔").catch(
+                  console.error,
+                );
               } else {
-                await ctx.reply("An unknown error occurred").catch(
+                await ctx.reply("Произошел какой-то кринж...").catch(
                   console.error,
                 );
               }
@@ -261,9 +283,9 @@ if (import.meta.main) {
           })();
         } catch (error: unknown) {
           if (error instanceof Error) {
-            await ctx.reply(`Error: ${error.message}`);
+            await ctx.reply(`Ошибка 🤫: ${error.message}`);
           } else {
-            await ctx.reply("An unknown error occurred");
+            await ctx.reply("Произошел какой-то неописуемый кринж...");
           }
         }
       }
